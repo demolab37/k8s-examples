@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banana-green
+  labels:
+    app: banana
+    cluster: green
+spec:
+  selector:
+    matchLabels:
+      run: banana-green
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: banana
+        run: banana-green
+        version: "1.2"
+      annotations:
+        kubernetes.io/change-cause: "CRQ-124: update 1.2 release"
+    spec:
+      volumes:
+        - name: html
+          emptyDir: {}
+      containers:
+        - name: banana-green
+          image: hashicorp/http-echo
+          ports: 
+            - containerPort: 5678
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 5678
+            initialDelaySeconds: 1
+            periodSeconds: 2
+          livenessProbe:
+            tcpSocket:
+              port: 5678
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          args:
+            - "-text=banana-1.2"
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate

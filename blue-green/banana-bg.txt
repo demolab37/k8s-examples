@@ -1,0 +1,17 @@
+blue-green deploy
+
+-- set environment
+k create ns app0
+k config set-context --current --namespace=app0
+
+-- initial
+1.) create deployments (blue, green)
+2.) create NodePort services (blue,green)
+3.) create LB pointing to NodePort (blue)
+
+-- update: green, LB switch
+1.) update deployments (green, v=1.1)
+2.) update LB pointing to NodePort (green)
+
+-- rollback: blue, LB switch
+1.) update LB pointing to NodePort (blue, v=1.0)
