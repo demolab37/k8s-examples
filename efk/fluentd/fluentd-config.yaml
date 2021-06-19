@@ -1,0 +1,147 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+    kubernetes.io/cluster-service: "true"
+data:
+  fluent.conf: |
+    #@include systemd.conf
+    @include kubernetes.conf
+    <match **>
+       @type elasticsearch
+       @id out_es
+       @log_level info
+       include_tag_key true
+       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
+       ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'true'}"
+       user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
+       password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+       reload_connections "#{ENV['FLUENT_ELASTICSEARCH_RELOAD_CONNECTIONS'] || 'true'}"
+       logstash_prefix "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX'] || 'logstash'}"
+       logstash_format true
+       type_name fluentd
+       <buffer>
+         flush_thread_count "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_FLUSH_THREAD_COUNT'] || '8'}"
+         flush_interval "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_FLUSH_INTERVAL'] || '5s'}"
+         chunk_limit_size "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_CHUNK_LIMIT_SIZE'] || '2M'}"
+         queue_limit_length "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_QUEUE_LIMIT_LENGTH'] || '32'}"
+         retry_max_interval "#{ENV['FLUENT_ELASTICSEARCH_BUFFER_RETRY_MAX_INTERVAL'] || '30'}"
+         retry_forever true
+       </buffer>
+    </match>
+  kubernetes.conf: |
+    <match fluent.**>
+      @type null
+    </match>
+    # we use kubernetes metadata plugin to add metadatas to the log
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+    </filter>
+
+    <filter kubernetes.**>
+      @type grep
+      # include everyting from kube-system ns
+      <regexp>
+        key $.kubernetes.namespace_name
+        pattern ^kube-system|development|default$
+      </regexp>
+    </filter>
+
+    # only include logs for pods with label fluentd=true
+    #<filter kubernetes.**>
+    #  <regexp>
+    #    key $.kubernetes.labels.fluentd
+    #    pattern true
+    #  </regexp>
+    #</filter>
+
+    # exclude all logs from kube-system NS
+    #<match kubernetes.var.log.containers.**kube-system**.log>
+    #  @type null
+    #</match>
+    # this add the namespace name at the begining of the tag
+    #<match kubernetes.**>
+    #  @type rewrite_tag_filter
+    #  <rule>
+    #    key $['kubernetes']['namespace_name']
+    #    pattern ^(.+)$
+    #    tag $1.${tag}
+    #  </rule>
+    #</match>
+    #Target Logs (ex:nginx)
+    #<source>
+    #  @type tail
+    #  @id in_tail_container_logs
+    #  path "/var/log/containers/nginx*.log"
+    #  pos_file "/var/log/fluentd-nginx.log.pos"
+    #  tag "kubernetes.*"
+    #  read_from_head true
+    #  <parse>
+    #    @type "json"
+    ##    time_format "%Y-%m-%dT%H:%M:%S.%NZ"
+    #    time_type string
+    #  </parse>
+    #</source>
+    <source>
+      type tail
+      path /var/log/containers/*.log
+      pos_file /var/log/es-containers.log.pos
+      time_format %Y-%m-%dT%H:%M:%S.%N
+      tag kubernetes.*
+      format json
+      read_from_head true
+      keep_time_key true
+    </source>
+  #systemd.conf: |
+  #  <source>
+  #    @type systemd
+  #    @id in_systemd_kubelet
+  #    matches [{ "_SYSTEMD_UNIT": "kubelet.service" }]
+  #    <storage>
+  #      @type local
+  #      persistent true
+  #      path /var/log/fluentd-journald-kubelet-cursor.json
+  #    </storage>
+  #    <entry>
+  #      fields_strip_underscores true
+  #    </entry>
+  #    read_from_head true
+  #    tag kubelet
+  #  </source>
+  #  <source>
+  #    @type systemd
+  #    @id in_systemd_docker
+  #    matches [{ "_SYSTEMD_UNIT": "docker.service" }]
+  #    <storage>
+  #      @type local
+  #      persistent true
+  #      path /var/log/fluentd-journald-docker-cursor.json
+  #    </storage>
+  #    <entry>
+  #      fields_strip_underscores true
+  #    </entry>
+  #    read_from_head true
+  #    tag docker.systemd
+  #  </source>
+  #  <source>
+  #    @type systemd
+  #    @id in_systemd_bootkube
+  #    matches [{ "_SYSTEMD_UNIT": "bootkube.service" }]
+  #    <storage>
+  #      @type local
+  #      persistent true
+  #      path /var/log/fluentd-journald-bootkube-cursor.json
+  #    </storage>
+  #    <entry>
+  #      fields_strip_underscores true
+  #    </entry>
+  #    read_from_head true
+  #    tag bootkube
+  #  </source>
