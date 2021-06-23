@@ -4,9 +4,14 @@ With custom upload-config to emptyDir volume and customization using ConfigMap. 
 
 # Setup
 ```
+# create the ConfigMap
 $ kubectl create cm nginx-cm --from-file=./default.conf
+
+# create the Deployment
 $ kubectl apply -f nginx-deploy.yaml
-$kubectl apply -f nginx-svc.yaml
+
+# create the ClusterIP service
+$ kubectl apply -f nginx-svc.yaml
 ```
 
 # Testing
