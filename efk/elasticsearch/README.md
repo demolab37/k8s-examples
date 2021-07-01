@@ -1,5 +1,8 @@
 # ElasticSearch and Kibana (ELK) 
 
+## Requirements:
+Default storage class defined for persistent storage claims, e.g. NFS.
+
 ## Install ELK Operator:
 
 ```
