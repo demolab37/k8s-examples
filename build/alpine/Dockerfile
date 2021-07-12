@@ -1,5 +1,5 @@
 FROM alpine:latest AS build
-RUN apk add git wget unzip python3
+RUN apk add git wget curl unzip python3
 ENV TF_RELEASE="0.15.5"
 WORKDIR /tmp
 RUN wget "https://releases.hashicorp.com/terraform/${TF_RELEASE}/terraform_${TF_RELEASE}_linux_amd64.zip"
