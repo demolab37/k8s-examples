@@ -41,7 +41,7 @@ jobs:
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks/templates" \
             refresh \
-            -var-file=${AWSENV}/terraform.tfvars
+            -var-file="../${AWSENV}/terraform.tfvars"
 
     - name: Terraform destroy
       run: |
