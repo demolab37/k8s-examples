@@ -37,15 +37,6 @@ jobs:
       run: |
           /bin/ls -l "${GITHUB_WORKSPACE}/"
       
-    - name: Terraform plan
-      env:
-         AWS_REGION: 'us-west-2'
-         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" plan
-           uses: actions/checkout@v2
-
     - name: Terraform init
       env:
          AWS_REGION: 'us-west-2'
@@ -53,7 +44,8 @@ jobs:
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" init
-      
+          #uses: actions/checkout@v2
+
     - name: Terraform plan
       env:
          AWS_REGION: 'us-west-2'
