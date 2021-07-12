@@ -44,8 +44,8 @@ jobs:
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" \
-            –backend-config=”dynamodb_table=tf-remote-state-lock” \
-            –backend-config=”bucket=tc-remotestate-50694” init
+            -–backend-config=”dynamodb_table=tf-remote-state-lock” \
+            -–backend-config=”bucket=tc-remotestate-50694” init
           #uses: actions/checkout@v2
 
     - name: Terraform plan
