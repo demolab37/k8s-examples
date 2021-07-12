@@ -2,6 +2,7 @@
 name: TF-Destroy
 env:
   TFSTATE_ID: 50694
+  AWSENV: 'dev'
   AWS_REGION: 'us-west-2'
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,9 +39,13 @@ jobs:
 
     - name: Terraform refresh
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" refresh
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" \
+            -var-file=${AWSENV}/terraform.tfvars \
+            refresh
 
     - name: Terraform destroy
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" destroy -auto-approve
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" \
+            -var-file=${AWSENV}/terraform.tfvars \
+            destroy -auto-approve
 

@@ -3,6 +3,10 @@
 name: TF-Plan
 env:
   TFSTATE_ID: 50694
+  AWSENV: dev
+  AWS_REGION: 'us-west-2'
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 # Controls when the workflow will run
 on:
@@ -32,18 +36,10 @@ jobs:
     - uses: actions/checkout@v2
  
     - name: check
-      env:
-         AWS_REGION: 'us-west-2'
-         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           /bin/ls -l "${GITHUB_WORKSPACE}/"
       
     - name: Terraform init
-      env:
-         AWS_REGION: 'us-west-2'
-         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" init \
             -backend=true \
@@ -53,10 +49,6 @@ jobs:
           #uses: actions/checkout@v2
 
     - name: Terraform plan
-      env:
-         AWS_REGION: 'us-west-2'
-         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" plan
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" -var-file=${AWSENV}/terraform.tfvars plan
       
