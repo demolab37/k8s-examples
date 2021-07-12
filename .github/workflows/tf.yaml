@@ -12,9 +12,9 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  plan:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
 
     # runs within your Docker container
     container:
@@ -22,7 +22,6 @@ jobs:
     # and runs pytest in your pipenv environment
     steps:
     - name: TF Plan
-      uses: actions/checkout@v2
       with:
          AWS_REGION: 'us-west-2'
          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
