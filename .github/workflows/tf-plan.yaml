@@ -1,6 +1,8 @@
 # This is a basic workflow to help you get started with Actions
 
 name: TF-Plan
+env:
+  TFSTATE_ID: 50694
 
 # Controls when the workflow will run
 on:
@@ -43,7 +45,10 @@ jobs:
          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" init -backend=true -backend-config="dynamodb_table=tf-remote-state-lock" -backend-config="bucket=tc-remotestate-50694"
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" init \
+            -backend=true \
+            -backend-config="dynamodb_table=tf-remote-state-lock" \
+            -backend-config="bucket=tc-remotestate-${TFSTATE_ID}"
 
           #uses: actions/checkout@v2
 
