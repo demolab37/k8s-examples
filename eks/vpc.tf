@@ -1,10 +1,8 @@
 variable "region" {
-  default     = "us-east-2"
   description = "AWS region"
 }
 
 provider "aws" {
-  region = "us-east-2"
 }
 
 data "aws_availability_zones" "available" {}
@@ -14,7 +12,7 @@ locals {
 }
 
 resource "random_string" "suffix" {
-  length  = 8
+  length  = 3
   special = false
 }
 
