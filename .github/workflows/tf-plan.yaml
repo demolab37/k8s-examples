@@ -26,9 +26,10 @@ jobs:
     
     steps:
 
-    - name: Check Out Repo 
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
  
-     - name: check
+    - name: check
       env:
          AWS_REGION: 'us-west-2'
          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
