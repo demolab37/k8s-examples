@@ -4,10 +4,6 @@ name: TF-Destroy
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches:
-    - 'master'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -16,7 +12,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
 
-  tf-apply:
+  tf-destroy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -45,7 +41,4 @@ jobs:
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" destroy -auto-approve
-     
-     
-
 
