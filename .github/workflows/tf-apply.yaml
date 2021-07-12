@@ -1,6 +1,11 @@
 # This is a basic workflow to help you get started with Actions
 
 name: TF-Apply
+env:
+  TFSTATE_ID: 50694
+  AWS_REGION: 'us-west-2'
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 # Controls when the workflow will run
 on:
@@ -30,22 +35,13 @@ jobs:
     - uses: actions/checkout@v2
  
     - name: Terraform init
-      env:
-         AWS_REGION: 'us-west-2'
-         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" init
-          #uses: actions/checkout@v2
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" init \
+            -backend=true \
+            -backend-config="dynamodb_table=tf-remote-state-lock" \
+            -backend-config="bucket=tc-remotestate-${TFSTATE_ID}"
 
     - name: Terraform apply
-      env:
-         AWS_REGION: 'us-west-2'
-         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" apply -auto-approve
-     
-     
-
 
