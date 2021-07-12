@@ -41,7 +41,6 @@ jobs:
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" refresh
 
     - name: Terraform destroy
-      env:
       run: |
           /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks" destroy -auto-approve
 
