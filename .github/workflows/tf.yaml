@@ -21,6 +21,7 @@ jobs:
       image: docker://cg5labs/my-alpine:latest    # checkout your code from your repository
     # and runs pytest in your pipenv environment
     steps:
+    - uses: actions/checkout@v2
     - name: TF Plan
       with:
          AWS_REGION: 'us-west-2'
