@@ -1,10 +1,12 @@
 FROM alpine:latest AS build
-RUN apk add git wget unzip
+RUN apk add git wget unzip python3
 ENV TF_RELEASE="0.15.5"
 WORKDIR /tmp
-#RUN wget https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip 
 RUN wget "https://releases.hashicorp.com/terraform/${TF_RELEASE}/terraform_${TF_RELEASE}_linux_amd64.zip"
 RUN unzip "terraform_${TF_RELEASE}_linux_amd64.zip" && rm "terraform_${TF_RELEASE}_linux_amd64.zip" && mv -v terraform /usr/bin/terraform
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip "awscliv2.zip"
+RUN ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
 RUN mkdir -pv /apps
 WORKDIR /apps
 COPY build/alpine/. .
