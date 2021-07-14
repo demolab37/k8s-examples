@@ -41,7 +41,7 @@ jobs:
       
     - name: Terraform init
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks/templates" init \
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/iac/eks/templates" init \
             -backend=true \
             -backend-config="dynamodb_table=tf-remote-state-lock" \
             -backend-config="bucket=tc-remotestate-${TFSTATE_ID}"
@@ -50,6 +50,6 @@ jobs:
 
     - name: Terraform plan
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks/templates" \
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/iac/eks/templates" \
             plan -var-file="../${AWSENV}/terraform.tfvars"
       

@@ -37,14 +37,14 @@ jobs:
  
     - name: Terraform init
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks/templates" init \
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/iac/eks/templates" init \
             -backend=true \
             -backend-config="dynamodb_table=tf-remote-state-lock" \
             -backend-config="bucket=tc-remotestate-${TFSTATE_ID}"
 
     - name: Terraform apply
       run: |
-          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/eks/templates" \
+          /usr/bin/terraform -chdir="${GITHUB_WORKSPACE}/iac/eks/templates" \
             apply -auto-approve \
             -var-file="../${AWSENV}/terraform.tfvars"
 
