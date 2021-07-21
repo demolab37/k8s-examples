@@ -1,0 +1,21 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "helm-example.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "helm-example.name" . }}
+    helm.sh/chart: {{ include "helm-example.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: {{ include "helm-example.fullname" . }}
+              servicePort: {{ .Values.service.port }}
