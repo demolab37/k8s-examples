@@ -1,8 +1,8 @@
 
-replicaCount: 1
+replicaCount: 2
 image:
   repository: "nginx"
-    tag: "alpine"
+  tag: "alpine"
   pullPolicy: IfNotPresent
 service:
   type: NodePort
