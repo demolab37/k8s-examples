@@ -19,7 +19,7 @@ spec:
         fluentd: "true"
     spec:
       containers:
-      - image: nginx:alpine
+      - image: nginx:latest
         name: nginx
         ports:
         - containerPort: 80
