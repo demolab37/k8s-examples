@@ -23,6 +23,12 @@ spec:
         name: nginx
         ports:
         - containerPort: 80
+        env:
+          - name: NGINX_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: password
         volumeMounts:
         - name: config-vol
           mountPath: /etc/nginx/conf.d

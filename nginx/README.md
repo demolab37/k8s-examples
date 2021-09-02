@@ -7,6 +7,9 @@ With custom upload-config to emptyDir volume and customization using ConfigMap. 
 # create the ConfigMap
 $ kubectl create cm nginx-cm --from-file=./default.conf
 
+# create the Secret
+$ kubectl create secret generic app-secret --from-file=./nginx-secret.yaml
+
 # create the Deployment
 $ kubectl apply -f nginx-deploy.yaml
 
