@@ -24,6 +24,11 @@ spec:
         ports:
         - containerPort: 80
         env:
+          - name: NGINX_ENV_SETTING
+            valueFrom:
+              configMapKeyRef:
+                name: nginx-cm
+                key: custom_variable
           - name: NGINX_SECRET
             valueFrom:
               secretKeyRef:
