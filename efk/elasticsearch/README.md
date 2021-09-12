@@ -12,13 +12,14 @@ $ k apply -f elasticsearch/all-in-one.yaml
 ## Install ElasticSearch:
 
 ```
-$ k apply -f elasticsearch/elk-mini.yaml
+$ k create ns elastic
+$ k apply -f elasticsearch/elk-mini.yaml -n elastic
 ```
 
 ## Install Kibana:
 
 ```
-$ k apply -f elasticsearch/kibana.yaml
+$ k apply -f elasticsearch/kibana.yaml -n elastic
 ```
 
 ## Check ELK cluster:
