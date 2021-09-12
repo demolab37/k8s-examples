@@ -1,6 +1,12 @@
-# Fluentd log aggregator
+# FluentD log aggregator
 
 Adjust the ElasticSearch Host and user/pass in the StatefulSet YAML to match.
+
+The ElasticSearch password is encapsulated in the K8s secret elastic-secret.yaml with a default value. 
+To get the ElasticSearch password from the ElasticSearch operator:
+$ kubectl get secret elk-es-elastic-user -n elastic -o=yaml
+Update the elastic-secret in the FluentD NS (kube-system).
+
 Adjust the fluentd.conf ConfigMap as needed.
 
 See:
