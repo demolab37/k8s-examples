@@ -46,12 +46,44 @@ data:
       @type kubernetes_metadata
     </filter>
 
+    <match kubernetes.**>
+      @type rewrite_tag_filter
+
+      # rewrite fluentd tag for all container logs with k8s label app=nginx
+      <rule>
+        key $.kubernetes.labels.app
+        pattern ^nginx$
+        tag nginx.${tag}
+      </rule>
+    </match>
+
+    <filter nginx.kubernetes.**>
+      @type parser
+      # whitelist for namespaces to include for this filter
+      <regexp>
+        key $.kubernetes.namespace_name
+        pattern ^development|default|demo$
+      </regexp>
+
+      # Fluentd provides a few built-in formats for popular and common formats such as "apache" and "json".
+      format nginx
+      key_name log
+      # Retain the original "log" field after parsing out the data.
+      reserve_data true
+
+      # The access logs and error logs are interleaved with each other and have
+      # different formats, so ignore parse errors, as they're expected
+      suppress_parse_error_log true
+    </filter>
+
+
     <filter kubernetes.**>
       @type grep
       # include everyting from kube-system ns
       <regexp>
         key $.kubernetes.namespace_name
-        pattern ^kube-system|development|default$
+        #pattern ^kube-system|development|default|demo$
+        pattern ^development|default|demo$
       </regexp>
     </filter>
 
