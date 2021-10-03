@@ -48,44 +48,25 @@ data:
 
     <match kubernetes.**>
       @type rewrite_tag_filter
-
-      # rewrite fluentd tag for all container logs with k8s label app=nginx
+      # https://banzaicloud.com/blog/k8s-logging-advanced/
+      # rewrite fluentd tag to k8s label app=<appname>
       <rule>
+        #key $['kubernetes']['labels']['app']
         key $.kubernetes.labels.app
-        pattern ^nginx$
-        tag nginx.${tag}
+        pattern ^(.+)$
+        tag $1
       </rule>
     </match>
 
-    <filter nginx.kubernetes.**>
+    <filter nginx.**>
       @type parser
-      # whitelist for namespaces to include for this filter
-      <regexp>
-        key $.kubernetes.namespace_name
-        pattern ^development|default|demo$
-      </regexp>
-
       # Fluentd provides a few built-in formats for popular and common formats such as "apache" and "json".
       format nginx
       key_name log
       # Retain the original "log" field after parsing out the data.
       reserve_data true
-
-      # The access logs and error logs are interleaved with each other and have
-      # different formats, so ignore parse errors, as they're expected
-      suppress_parse_error_log true
     </filter>
 
-
-    <filter kubernetes.**>
-      @type grep
-      # include everyting from kube-system ns
-      <regexp>
-        key $.kubernetes.namespace_name
-        #pattern ^kube-system|development|default|demo$
-        pattern ^development|default|demo$
-      </regexp>
-    </filter>
 
     # only include logs for pods with label fluentd=true
     #<filter kubernetes.**>
