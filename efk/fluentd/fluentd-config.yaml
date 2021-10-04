@@ -67,6 +67,32 @@ data:
       reserve_data true
     </filter>
 
+    <filter httpd.**>
+      @type parser
+      # Fluentd provides a few built-in formats for popular and common formats such as "apache" and "json".
+      format apache2
+      key_name log
+      # Retain the original "log" field after parsing out the data.
+      reserve_data true
+    </filter>
+
+    # FIXME
+    # 2021-10-04 15:45:34.941913 I | etcdserver/api/etcdhttp: /health OK (status code 200)
+    #
+    #<filter etcd.**>
+    # @type parser
+    #  key_name log
+    #  reserve_data true
+    #  <parse>
+    #    @type regexp
+    #    expression /^(?<logtime>[^\]]*) \| (?<check>[^ ]*) (?<param>[^ ]*) (?<code>\d*)$/
+    #    time_key logtime
+    #    time_format %b %d %H:%M:%S.%N
+    #    types code:integer
+    #  </parse>
+    #</filter>
+
+
 
     # only include logs for pods with label fluentd=true
     #<filter kubernetes.**>
