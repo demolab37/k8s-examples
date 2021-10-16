@@ -16,6 +16,14 @@ spec:
         - name: event-exporter
           image: ghcr.io/opsgenie/kubernetes-event-exporter:v0.10
           imagePullPolicy: IfNotPresent
+          env:
+          - name: FLUENT_ELASTICSEARCH_USER
+            value: "elastic"
+          - name: FLUENT_ELASTICSEARCH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: elastic-user
+                key: elastic
           args:
             - -conf=/data/config.yaml
           volumeMounts:
@@ -23,8 +31,8 @@ spec:
               name: cfg
       volumes:
         - name: cfg
-          configMap:
-            name: event-exporter-cfg
+          secret:
+            secretName: event-exporter-cfg
   selector:
     matchLabels:
       app: event-exporter
