@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: shared-ingress
+  name: name-virtual-host-ingress
   annotations:
     ingressClassName: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -10,16 +10,20 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: "apple.example.com"
+    http:
       paths:
-        - path: /apple
+        - path: /
           pathType: Prefix
           backend:
             service:
               name: apple-service
               port: 
                 number: 5678
-        - path: /banana
+  - host: "banana.example.com"
+    http:
+      paths:
+        - path: /
           pathType: Prefix
           backend:
             service:

@@ -24,12 +24,22 @@ $ kubectl apply -f shared-ingress.yaml
 $ kubectl get svc -n ingress-nginx
 
 ssh minikube
-curl -L -v <minikube-host-IP>:<node-port>/apple
-curl -L -v <minikube-host-IP>:<node-port>/banana
+
+# Name-based Ingress:
+$ curl -H 'Host: apple.example.com' http://192.168.64.4:31815
+apple
+$ curl -H 'Host: banana.example.com' http://192.168.64.4:31815
+banana
+
+# Path-based Ingress:
+$ curl http://192.168.64.4:31815/apple
+apple
+$ curl http://192.168.64.4:31815/banana
+banana
 ```
 
 See:
+* https://kubernetes.io/docs/concepts/services-networking/ingress/
 * https://kubernetes.github.io/ingress-nginx/deploy/
 * https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
-
 
