@@ -11,7 +11,7 @@ $ kubectl apply -f registry-cm.yaml
 $ kubectl apply -f registry-deploy.yaml
 
 # create the ClusterIP service
-$ kubectl apply -f nginx-svc.yaml
+$ kubectl apply -f registry-svc.yaml
 ```
 
 # Testing
