@@ -19,7 +19,7 @@ spec:
         app: nginx
         fluentd: "true"
     spec:
-      nodeName: xsrv007
+      nodeName: xsrv006
       containers:
       - image: nginx:alpine
         name: nginx
