@@ -27,3 +27,6 @@ spec:
     namespace: infra
   syncPolicy:
     automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
