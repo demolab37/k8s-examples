@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,7 +7,7 @@ metadata:
     app: nginx
   name: nginx
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -18,6 +19,7 @@ spec:
         app: nginx
         fluentd: "true"
     spec:
+      nodeName: xsrv007
       containers:
       - image: nginx:alpine
         name: nginx
@@ -35,11 +37,16 @@ spec:
                 name: app-secret
                 key: password
         volumeMounts:
+        - name: nfs-test
+          mountPath: /usr/share/nginx/html
         - name: config-vol
           mountPath: /etc/nginx/conf.d
         - name: upload-vol
           mountPath: /usr/share/nginx/upload
       volumes:
+        - name: nfs-test
+          persistentVolumeClaim:
+            claimName: sc-nfs-pvc
         - name: upload-vol
           emptyDir: {}
         - name: config-vol
