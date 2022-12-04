@@ -2,21 +2,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: apple-vhost-ingress
+  name: grafana-ingress
   annotations:
     ingressClassName: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-    ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-  - host: "apple.cg5labs.ddns.net"
+  - host: "grafana.cg5labs.ddns.net"
     http:
       paths:
         - path: /
           pathType: Prefix
           backend:
             service:
-              name: apple-service
+              name: prometheus-grafana
               port: 
-                number: 5678
+                number: 80
