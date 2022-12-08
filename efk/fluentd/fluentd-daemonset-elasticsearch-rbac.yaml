@@ -66,6 +66,8 @@ spec:
       - name: fluentd
         image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
         env:
+          - name: FLUENT_CONTAINER_TAIL_PARSER_TYPE
+            value: /^(?<time>.+) (?<stream>stdout|stderr) (?<logtag>[FP]) (?<log>.*)$/
           - name:  FLUENT_ELASTICSEARCH_HOST
             value: "elk-es-http.infra"
           - name:  FLUENT_ELASTICSEARCH_PORT
