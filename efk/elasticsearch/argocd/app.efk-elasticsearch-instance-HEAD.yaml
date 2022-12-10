@@ -4,10 +4,12 @@ kind: Application
 metadata:
   name: elasticsearch-instance
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: in-cluster
-    namespace: infra
+    namespace: monitoring
   project: default
   source:
     repoURL: 'https://github.com/cg5labs/k8s-examples.git'
