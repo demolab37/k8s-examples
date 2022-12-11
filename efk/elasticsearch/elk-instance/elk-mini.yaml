@@ -17,10 +17,10 @@ spec:
           resources:
             requests:
               cpu: 0.5
-              memory: "768Mi"
+              memory: "1Gi"
             limits:
               cpu: 0.5
-              memory: "768Mi"
+              memory: "1Gi"
     volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data # Do not change this name unless you set up a volume mount for the data path.
