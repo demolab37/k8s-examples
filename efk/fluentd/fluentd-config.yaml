@@ -137,9 +137,19 @@ data:
       format json
       read_from_head true
       keep_time_key true
+
       <parse>
-        @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'json'}"
-        time_format %Y-%m-%dT%H:%M:%S.%N%:z
+        @type multi_format
+        <pattern>
+          format json
+          time_format %Y/%m/%d %H:%M:%S
+        </pattern>
+        
+        <pattern>
+          format regexp
+          time_format %Y-%m-%dT%H:%M:%S.%N%:z
+          expression /^(?<time>.+)\b(?<stream>stdout|stderr)\b(?<log>.*)$/
+        </pattern>
       </parse>
     </source>
   #systemd.conf: |
