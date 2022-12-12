@@ -134,7 +134,7 @@ data:
       pos_file /var/log/es-containers.log.pos
       time_format %Y-%m-%dT%H:%M:%S.%N:z
       tag kubernetes.*
-      format json
+      #format json
       read_from_head true
       keep_time_key true
 
