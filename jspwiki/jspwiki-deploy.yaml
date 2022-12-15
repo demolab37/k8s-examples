@@ -20,6 +20,9 @@ spec:
       containers:
       - name:  jspwiki
         image: apache/jspwiki
+        volumeMounts:
+        - name: jspwiki-nfs
+          mountPath: /var/jspwiki/pages
         #args: 
         #- "/usr/local/tomcat/bin/catalina.sh"
         #- "run"
@@ -28,3 +31,7 @@ spec:
         resources: {}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
+      volumes:
+        - name: jspwiki-nfs
+          persistentVolumeClaim:
+            claimName: jspwiki
