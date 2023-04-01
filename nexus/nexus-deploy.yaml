@@ -31,4 +31,4 @@ spec:
       volumes:
         - name: nexus-data
           persistentVolumeClaim:
-            - name: nexus
+            claimName: nexus
