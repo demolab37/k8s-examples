@@ -1,7 +1,7 @@
 FROM alpine:latest AS build
 RUN apk add git wget curl unzip aws-cli
-ENV TF_RELEASE="0.13.7"
-ENV HELM_RELEASE="v3.6.3"
+ENV TF_RELEASE="1.4.4"
+ENV HELM_RELEASE="v3.11.2"
 WORKDIR /tmp
 RUN wget "https://releases.hashicorp.com/terraform/${TF_RELEASE}/terraform_${TF_RELEASE}_linux_amd64.zip"
 RUN unzip "terraform_${TF_RELEASE}_linux_amd64.zip" && rm "terraform_${TF_RELEASE}_linux_amd64.zip" && mv -v terraform /usr/bin/terraform
