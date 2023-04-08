@@ -7,6 +7,8 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: nfs
+  volumeMode: Filesystem
+  volumeName: pvc-5565e337-27ed-45b6-bd04-15d855fe09d2
   resources:
     requests:
       storage: 1Gi
