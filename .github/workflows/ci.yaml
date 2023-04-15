@@ -48,7 +48,7 @@ jobs:
         with:
           image: ${{ secrets.DOCKER_HUB_USERNAME }}/my-alpine:latest
           args: 
-            --file=Dockerfile
+            --file=./build/alpine/Dockerfile
             --severity-threshold=medium
             --exclude-app-vulns=/usr/bin/terraform
 
