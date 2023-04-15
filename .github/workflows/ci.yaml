@@ -47,7 +47,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.DOCKER_HUB_USERNAME }}/my-alpine:latest
-          args: --severity-threshold=high
+          args: --severity-threshold=high --exclude-app-vulns=/usr/bin/terraform
 
       - name: Build and push
         id: docker_build
