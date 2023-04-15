@@ -21,7 +21,6 @@ data:
           #indexFormat: "kube-events-{2006-01-02}"
           username: "elastic"
           password: "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
-          #password: "Zs6JZK4U27WTK4O2o558aa3t"
           #cloudID: # optional
           #apiKey: # optional
           # If set to true, it allows updating the same document in ES (might be useful handling count)
