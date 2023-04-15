@@ -48,13 +48,14 @@ jobs:
         with:
           image: ${{ secrets.DOCKER_HUB_USERNAME }}/my-alpine:latest
           args: 
+            --file=Dockerfile
             --severity-threshold=medium
             --exclude-app-vulns=/usr/bin/terraform
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: "${GITHUB_WORKSPACE}/snyk.sarif"
+          sarif_file: "snyk.sarif"
 
       - name: Build and push
         id: docker_build
