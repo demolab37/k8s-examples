@@ -54,7 +54,7 @@ jobs:
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: ${{ GITHUB_WORKSPACE }}/snyk.sarif
+          sarif_file: "${GITHUB_WORKSPACE}/snyk.sarif"
 
       - name: Build and push
         id: docker_build
