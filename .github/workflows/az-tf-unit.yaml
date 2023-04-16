@@ -36,7 +36,6 @@ jobs:
     - name: Run Checkov action
       id: checkov
       uses: bridgecrewio/checkov-action@master
-      working-directory: iac/azure
       with: 
         framework: terraform
 
