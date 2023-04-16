@@ -145,7 +145,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: tfplan
-        path: "${GITHUB_WORKSPACE}/iac/azure"
+        path: ${{ github.workspace }}/iac/azure/tfplan
 
     # Terraform Apply
     - name: Terraform Apply
