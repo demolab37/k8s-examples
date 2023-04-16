@@ -13,10 +13,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Debug
-    - name: check1
-      run: find "${GITHUB_WORKSPACE}" -name "*.tf" -print
-
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
@@ -31,5 +27,5 @@ jobs:
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      run: terraform -chdir="${GITHUB_WORKSPACE}/iac/azure" fmt -check -recursive
+      run: terraform fmt -check -recursive "${GITHUB_WORKSPACE}/iac/azure"
     
