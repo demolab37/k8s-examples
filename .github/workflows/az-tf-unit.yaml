@@ -27,5 +27,5 @@ jobs:
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      run: terraform fmt -check -recursive "${GITHUB_WORKSPACE}/iac/azure"
+      run: terraform fmt -check -recursive -diff -write=false "${GITHUB_WORKSPACE}/iac/azure"
     
