@@ -1,6 +1,5 @@
-# This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI-Azure
 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -8,10 +7,15 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  docker_img: "azure-ci"
+  docker_tag: "latest"
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check Out Repo 
         uses: actions/checkout@v3
@@ -36,9 +40,9 @@ jobs:
         uses: docker/build-push-action@v4.0.0
         with:
           context: ./
-          file: ./build/alpine/Dockerfile
+          file: ./build/aws-ci/Dockerfile
           load: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-alpine:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.docker_img }}:${{ env.docker_tag }}
 
       - name: Run Snyk to check Docker images for CVE
         uses: snyk/actions/docker@master
@@ -46,9 +50,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: ${{ secrets.DOCKER_HUB_USERNAME }}/my-alpine:latest
+          image: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.docker_img }}:${{ env.docker_tag }}
           args: 
-            --file=./build/alpine/Dockerfile
+            --file=./build/${{ env.docker_img }}/Dockerfile
             --severity-threshold=medium
             --exclude-app-vulns=/usr/bin/terraform
 
@@ -62,9 +66,9 @@ jobs:
         uses: docker/build-push-action@v4.0.0
         with:
           context: ./
-          file: ./build/alpine/Dockerfile
+          file: ./build/${{ env.docker_img }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-alpine:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.docker_img }}:${{ env.docker_tag }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
