@@ -34,7 +34,7 @@ jobs:
       id: checkov
       uses: bridgecrewio/checkov-action@master
       with: 
-        directory: "${GITHUB_WORKSPACE}/iac/azure"
+        directory: ${{ env.GITHUB_WORKSPACE }}/iac/azure
         framework: terraform
 
     # Debug
