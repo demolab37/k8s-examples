@@ -67,6 +67,9 @@ jobs:
         else 
           exit 0
         fi
+
+    - name: Debug
+      run: find "${GITHUB_WORKSPACE}" -name tfplan -print
         
     # Save plan to artifacts  
     - name: Publish Terraform Plan
@@ -135,8 +138,6 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
 
-    - name: Debug
-      run: find "${GITHUB_WORKSPACE}" -name tfplan -print
 
     # Download saved plan from artifacts  
     - name: Download Terraform Plan
