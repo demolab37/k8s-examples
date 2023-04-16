@@ -19,16 +19,13 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init -backend=false
-      working-directory: "${GITHUB_WORKSPACE}/iac/azure"
+      run: terraform -chdir="${GITHUB_WORKSPACE}/iac/azure" init -backend=false
 
     # Validate terraform files
     - name: Terraform Validate
-      run: terraform validate
-      working-directory: "${GITHUB_WORKSPACE}/iac/azure"
+      run: terraform -chdir="${GITHUB_WORKSPACE}/iac/azure" validate
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      run: terraform fmt -check -recursive
-      working-directory: "${GITHUB_WORKSPACE}/iac/azure"
+      run: terraform -chdir="${GITHUB_WORKSPACE}/iac/azure" fmt -check -recursive
     
