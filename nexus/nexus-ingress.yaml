@@ -12,7 +12,7 @@ spec:
         - nexus.cg5labs.net
       secretName: nexus-tls
   rules:
-  - host: "nexus.cg5labs.net"
+  - host: nexus.cg5labs.net
     http:
       paths:
         - path: /
