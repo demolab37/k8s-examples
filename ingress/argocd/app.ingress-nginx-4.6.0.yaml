@@ -17,6 +17,8 @@ spec:
           value: DaemonSet
         - name: controller.service.type
           value: NodePort
+        #- name: controller.extraArgs.default-ssl-certificate
+          #value: nexus/nexus-tls
     chart: ingress-nginx
   destination:
     server: 'https://kubernetes.default.svc'

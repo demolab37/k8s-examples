@@ -4,9 +4,15 @@ kind: Ingress
 metadata:
   annotations:
     ingressClassName: nginx
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-production"
   name: grafana-ingress
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - grafana.cg5labs.net
+      secretName: nexus-tls
   rules:
   - host: grafana.cg5labs.ddns.net
     http:
