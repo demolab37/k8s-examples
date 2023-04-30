@@ -7,7 +7,21 @@ metadata:
     ingressClassName: nginx
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - nexus.cg5labs.net
+      secretName: nexus-tls
   rules:
+  - host: "nexus.cg5labs.net"
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: nexus
+              port: 
+                number: 8081
   - host: "nexus.cg5labs.ddns.net"
     http:
       paths:
@@ -18,3 +32,4 @@ spec:
               name: nexus
               port: 
                 number: 8081
+
