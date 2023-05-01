@@ -14,9 +14,11 @@ spec:
     helm:
       parameters:
         - name: controller.kind
-          value: DaemonSet
+          value: Deployment
         - name: controller.service.type
-          value: NodePort
+          value: LoadBalancer
+        - name: controller.service.LoadBalancerIP
+          value: "192.168.17.11"
         - name: controller.service.externalTrafficPolicy
           value: Local
         #- name: controller.extraArgs.default-ssl-certificate
