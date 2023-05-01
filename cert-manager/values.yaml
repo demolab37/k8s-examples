@@ -2,3 +2,7 @@
 cert-manager:
   version: v1.11.1
   installCRDs: true
+  global:
+    leaderElection:
+      leaseDuration: 60s
+      renewDeadline: 40s
