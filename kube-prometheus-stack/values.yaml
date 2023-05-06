@@ -18,7 +18,7 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-          serviceName: kube-prometheus-subchart-grafana
+          serviceName: kube-prometheus-stack-grafana
           servicePort: 80
   tls: 
     - secretName: grafana-tls
