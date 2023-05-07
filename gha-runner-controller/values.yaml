@@ -1,0 +1,6 @@
+
+replicaCount: 1
+syncPeriod: "1m"
+authSecret:
+  create: false
+  name: controller-manager
