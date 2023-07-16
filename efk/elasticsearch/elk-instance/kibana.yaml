@@ -7,3 +7,5 @@ spec:
   count: 1
   elasticsearchRef:
     name: elk
+  config:
+    server.publicBaseUrl: es.cg5labs.net
