@@ -8,4 +8,4 @@ spec:
   elasticsearchRef:
     name: elk
   config:
-    server.publicBaseUrl: es.cg5labs.net
+    server.publicBaseUrl: "https://es.cg5labs.net"
