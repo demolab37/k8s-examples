@@ -39,3 +39,11 @@ vagrant@cluster1-master1:~$
 vagrant@cluster1-master1:~$ k get secret -n elastic elk-es-elastic-user -o=yaml
 vagrant@cluster1-master1:~$ kubectl port-forward --address 10.0.2.15 service/elk-kb-http 3000:5601
 ```
+
+## ELK cluster customization
+Config-as-code for index template:
+```
+$ k apply -f elasticsearch/es-customizer-cm.yaml
+$ k apply -f elasticsearch/es-customizer-job.yaml
+```
+Dependencies: $ES_API_AUTH secret var from secret elk-es-elastic-user
