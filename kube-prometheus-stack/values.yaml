@@ -6,6 +6,12 @@ service:
   type: ClusterIP
   port: 80
 
+prometheus:
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+
 ingress:
   enabled: true
   annotations: 
