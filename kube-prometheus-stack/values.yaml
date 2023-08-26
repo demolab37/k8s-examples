@@ -6,11 +6,11 @@ service:
   type: ClusterIP
   port: 80
 
-prometheus:
-  prometheusSpec:
-    podMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelectorNilUsesHelmValues: false
-
+prometheus-operator:
+  namespaces:
+    releaseNamespace: true
+    additional:
+    - ingres-nginx
 
 ingress:
   enabled: true
