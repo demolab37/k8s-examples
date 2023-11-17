@@ -1,6 +1,6 @@
 FROM alpine:latest AS build
-RUN apk upgrade
 RUN apk add git wget curl unzip aws-cli
+RUN apk upgrade
 ENV TF_RELEASE="1.6.3"
 ENV HELM_RELEASE="v3.13.2"
 WORKDIR /tmp
