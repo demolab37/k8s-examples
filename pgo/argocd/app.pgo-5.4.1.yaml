@@ -1,0 +1,25 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pgo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'registry.developers.crunchydata.com/crunchydata'
+    targetRevision: "5.4.3"
+    helm:
+      valueFiles:
+        - values.yaml
+    chart: pgo
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: pgo
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
