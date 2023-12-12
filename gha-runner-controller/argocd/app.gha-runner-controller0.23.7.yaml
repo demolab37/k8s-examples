@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gha-runner-controller
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://actions-runner-controller.github.io/actions-runner-controller'
+    targetRevision: "0.23.2"
+    helm:
+      valueFiles:
+        - values.yaml
+    chart: actions-runner-controller
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: actions-runner-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
