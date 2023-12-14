@@ -1,0 +1,8 @@
+---
+postgresVersion: 14
+instanceName: instance1
+instanceSize: 1Gi
+instanceStorageClassName: "nfs"
+instanceMemory: 256Mi
+instanceCPU: 1000m
+instanceReplicas: 1
