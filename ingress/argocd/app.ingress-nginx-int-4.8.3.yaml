@@ -1,8 +1,9 @@
 ---
+# ref: https://kubernetes.github.io/ingress-nginx/user-guide/multiple-ingress/
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: ingress-nginx-int
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: 'https://kubernetes.github.io/ingress-nginx/'
-    targetRevision: 4.6.0
+    targetRevision: 4.8.3
     helm:
       parameters:
         - name: controller.kind
@@ -18,7 +19,7 @@ spec:
         - name: controller.service.type
           value: LoadBalancer
         - name: controller.service.LoadBalancerIP
-          value: "192.168.17.11"
+          value: "192.168.17.12"
         - name: controller.service.externalTrafficPolicy
           value: Local
         - name: controller.metrics.enabled
@@ -27,14 +28,20 @@ spec:
           value: "true"
         - name: controller.metrics.serviceMonitor.additionalLabels.release
           value: "prometheus"
-        - name: controller.podAnnotations.prometheus.io/scrape
-          value: "true"
-        - name: controller.podAnnotations.prometheus.io/port
-          value: "10254"
+        - name: controller.ingressClass
+          value: "internal-nginx"
+        - name: controller.ingressClassResource.name
+          value: internal-nginx  # default: nginx
+        - name: controller.ingressClassResource.enabled
+          value: "true-int"
+        - name: controller.ingressClassResource.default
+          value: "false"
+        - name: controller.ingressClassResource.controllerValue
+          value: "k8s.io/internal-ingress-nginx"  # default: k8s.io/ingress-nginx
     chart: ingress-nginx
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: ingress-nginx
+    namespace: ingress-int
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

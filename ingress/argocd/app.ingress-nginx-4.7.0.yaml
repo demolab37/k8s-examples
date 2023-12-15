@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: 'https://kubernetes.github.io/ingress-nginx/'
-    targetRevision: 4.6.0
+    targetRevision: 4.7.0
     helm:
       parameters:
         - name: controller.kind
@@ -27,10 +27,6 @@ spec:
           value: "true"
         - name: controller.metrics.serviceMonitor.additionalLabels.release
           value: "prometheus"
-        - name: controller.podAnnotations.prometheus.io/scrape
-          value: "true"
-        - name: controller.podAnnotations.prometheus.io/port
-          value: "10254"
     chart: ingress-nginx
   destination:
     server: 'https://kubernetes.default.svc'

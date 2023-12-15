@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-haproxy
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://haproxy-ingress.github.io/charts'
+    targetRevision: 0.14.2
+    helm:
+      parameters:
+        - name: controller.hostNetwork
+          value: "false"
+        - name: controller.service.loadBalancerIP
+          value: "192.168.17.12"
+    chart: haproxy-ingress
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: ingress-haproxy
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      selfHeal: true
+
