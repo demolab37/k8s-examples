@@ -8,6 +8,7 @@ metadata:
     cert-manager.io/issuer: "letsencrypt-production"
     nginx.ingress.kubernetes.io/whitelist-source-range: 192.168.17.0/24
 spec:
+  ingressClassName: external-nginx
   tls:
     - hosts:
         - nexus.cg5labs.net
