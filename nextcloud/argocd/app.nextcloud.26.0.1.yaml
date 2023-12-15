@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: 'https://nextcloud.github.io/helm/'
-    targetRevision: "26.0.1"
+    targetRevision: "3.5.12"
     helm:
       valueFiles:
         - values.yaml
